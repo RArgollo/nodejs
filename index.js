@@ -1,7 +1,7 @@
 var http = require('http')
 
 http.createServer(function (req, res) {
-    res.write('FUNCIONEI PORRA VAMO CARALHO')
+    res.write('BOM DIA')
     res.end()
 }).listen(80)
 
