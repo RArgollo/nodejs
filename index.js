@@ -1,19 +1,31 @@
 import express from 'express'
-import { sequelize, Usuario } from './db.js'
+
+import { Sequelize, DataTypes } from 'sequelize'
+
+const sequelize = new Sequelize('deploy_nodeJS', 'postgres', 'rafa1902', {
+    host: 'deploy-nodejs.c7oi6egs4yoh.us-east-1.rds.amazonaws.com',
+    dialect: 'postgres',
+});
+
+const usuario = sequelize.define('Usuario', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+    },
+    nome: DataTypes.STRING,
+    senha: DataTypes.STRING
+});
 
 const app = express()
 
-const route = Router()
-
 app.use(express.json())
-
-app.use(route)
 
 app.get("/teste/:nome/:senha", async (req, res) => {
     try {
         await sequelize.authenticate();
         console.log("Conexão estabelecida com o banco de dados")
-        const novoUsuario = await Usuario.create({
+        const novoUsuario = await usuario.create({
             nome: req.query.nome,
             senha: req.query.senha,
         });
@@ -27,4 +39,4 @@ app.get("/teste/:nome/:senha", async (req, res) => {
 
 
 
-app.listen(3001, () => console.log("server running"))
+app.listen(3001, () => console.log("server rodando"))
